@@ -14,6 +14,9 @@ class UserModel extends Model
     // protected $guarded = ["user_id"];
     protected $fillable = ['level_id', 'username', 'nama', 'password'];
 
+    public function level() {
+        return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
+    }
 
     // public function level(): HasOne
     // {

@@ -28,10 +28,16 @@ class UserController extends Controller
     {
         $users = UserModel::select('user_id', 'username', 'nama', 'level_id')
             ->with('level');
+
         //Filter data user berdasaarkan level_id
-        if ($request->level_id) {
-            $users->where('level_id', $request->level_id);
+        // if ($request->level_id) {
+        //     $users->where('level_id', $request->level_id);
+        // }
+        $level_id = $request->input('level_id');
+        if (!empty($level_id)) {
+            $users->where('level_id', $level_id);
         }
+
         return DataTables::of($users)
             //nambah kolom index/no urut
             ->addIndexColumn()
@@ -91,7 +97,7 @@ class UserController extends Controller
         $user = UserModel::with('level')->find($id);
 
         $breadcrumb = (object)[
-            'title ' => 'Detail User',
+            'title' => 'Detail User',
             'list' => ['Home', 'User', 'Detail']
         ];
         $page = (object)[

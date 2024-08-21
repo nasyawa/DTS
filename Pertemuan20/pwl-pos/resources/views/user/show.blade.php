@@ -13,8 +13,7 @@
                     Data yang Anda cari tidak ditemukan.
                 </div>
             @else
-                <table class="table table-bordered table-striped table-hover table
-sm">
+                <table class="table table-bordered table-striped table-hover tablesm">
                     <tr>
                         <th>ID</th>
                         <td>{{ $user->user_id }}</td>
@@ -37,8 +36,7 @@ sm">
                     </tr>
                 </table>
             @endempty
-            <a href="{{ url('user') }}" class="btn btn-sm btn-default mt
-2">Kembali</a>
+            <a href="{{ url('user') }}" class="btn btn-sm btn-default mt2">Kembali</a>
         </div>
     </div>
 @endsection
