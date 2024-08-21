@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LevelModel;
+use App\Models\User;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -19,13 +20,18 @@ class UserController extends Controller
         $page = (object)[
             'title' => 'Daftar user yg terdaftar dalam sistem'
         ];
-        $activeMenu = 'user'; //set menu yg sedang akatif
-        return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        $activeMenu = 'user'; //set menu yg sedang aktif
+        $level = LevelModel::all(); //ambil data level untuk filter level
+        return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
     public function list(Request $request)
     {
         $users = UserModel::select('user_id', 'username', 'nama', 'level_id')
             ->with('level');
+        //Filter data user berdasaarkan level_id
+        if ($request->level_id) {
+            $users->where('level_id', $request->level_id);
+        }
         return DataTables::of($users)
             //nambah kolom index/no urut
             ->addIndexColumn()
@@ -36,12 +42,14 @@ class UserController extends Controller
                     url('/user/' . $user->user_id) . '">'
                     . csrf_field() . method_field('DELETE') .
                     '<button type="submit" class="btn btn-danger btn-sm" 
-            onclick="return confirm(\'Apakah Anda yakit menghapus data 
+            onclick="return confirm(\'Apakah Anda yakin menghapus data 
             ini?\');">Hapus</button></form>';
                 return $btn;
             })
             ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html 
             ->make(true);
+        //tambahan
+
     }
     //menampilka hal form tambah user
     public function create()
@@ -125,5 +133,22 @@ class UserController extends Controller
             'level_id' => $request->level_id
         ]);
         return redirect('/user')->with('succes', ' Data user berhasil diubah');
+    }
+
+    //Menghapus data User
+    public function destroy(string $id)
+    {
+        $check = UserModel::find($id);
+        if (!$check) {
+            return redirect('/user')->with('error', 'Data User tidak ditemukan');
+        }
+        try {
+            UserModel::destroy($id); //hapus data level
+
+            return redirect('/user')->with('success', 'Data user berhasil dihapus');
+        } catch (\Illuminate\Database\QueryException $e) {
+            //Jika terjadi error ketika menghapus data, redirect kembali ke hal dg membawa pesan error
+            return redirect('/user')->with('error', 'Data user gagal dihapus karena masih terdapat tabel lain yg terkait dg data ini');
+        }
     }
 }

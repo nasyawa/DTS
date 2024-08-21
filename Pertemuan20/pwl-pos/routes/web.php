@@ -29,5 +29,5 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/{id}', [UserController::class, 'show']); //nambah detail user
     Route::get('/{id}/edit', [UserController::class, 'edit']);
     Route::put('/{id}', [UserController::class, 'update']);
-    Route::delete('/{id}', [UserController::class, 'destory']);
+    Route::delete('/{id}', [UserController::class, 'destroy']);
 });
