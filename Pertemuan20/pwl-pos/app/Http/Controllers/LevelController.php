@@ -7,20 +7,24 @@ use Illuminate\Support\Facades\DB;
 
 class LevelController extends Controller
 {
-    //
     public function index()
     {
-        // DB::insert('insert into m_level (level_kode, level_nama, created_at) values (?, ?, ?)', ['CUS', 'Pelanggan', now()]);
-        // return 'Insert data baru berhasil';
-
-        // $row = DB::update('update m_level set level_nama= ? where level_kode= ?', 
-        // ['customer', 'CUS']);
-        // return 'Update data berhasil. Jumlah data yg diupdate: ' . $row . ' baris';
-
-        // $row =DB::delete('delete from m_level where level_kode = ?', ['CUS']);
-        // return 'Delete data berhasil. Jumlah data yg dihapus: '.$row. 'baris';
-
-        $data =DB::select('select * from m_level');
-        return view ('level',['data'=>$data]);
+        $activeMenu = 'level';
+        $breadcrumb = (object)[
+            'title' => ' Level User ',
+            'list' => ['Home', 'Level']
+        ];
+        return view('level.index')
+            ->with('activeMenu', $activeMenu)
+            ->with('breadcrumb,$breadcrumb');
     }
+    // DB::insert('insert into m_level (level_kode, level_nama, created_at) values (?, ?, ?)', ['CUS', 'Pelanggan', now()]);
+    // return 'Insert data baru berhasil';
+    // $row = DB::update('update m_level set level_nama= ? where level_kode= ?', 
+    // ['customer', 'CUS']);
+    // return 'Update data berhasil. Jumlah data yg diupdate: ' . $row . ' baris';
+    // $row =DB::delete('delete from m_level where level_kode = ?', ['CUS']);
+    // return 'Delete data berhasil. Jumlah data yg dihapus: '.$row. 'baris';
+    // $data =DB::select('select * from m_level');
+    // return view ('level',['data'=>$data]);
 }
