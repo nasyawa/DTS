@@ -24,15 +24,12 @@ class UserController extends Controller
         $level = LevelModel::all(); //ambil data level untuk filter level
         return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
+
     public function list(Request $request)
     {
         $users = UserModel::select('user_id', 'username', 'nama', 'level_id')
             ->with('level');
 
-        //Filter data user berdasaarkan level_id
-        // if ($request->level_id) {
-        //     $users->where('level_id', $request->level_id);
-        // }
         $level_id = $request->input('level_id');
         if (!empty($level_id)) {
             $users->where('level_id', $level_id);
@@ -54,8 +51,6 @@ class UserController extends Controller
             })
             ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html 
             ->make(true);
-        //tambahan
-
     }
     //menampilka hal form tambah user
     public function create()

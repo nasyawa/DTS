@@ -21,10 +21,15 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', [WelcomeController::class, 'index']);
 //Route LevelController menggunakan DBFacade
-Route::get('/level',[LevelController::class,'index']);
-Route::post('/level/list',[LevelController::class,'list']);
-Route::get('/level/create',[LevelController::class,'create']);
+Route::get('/level', [LevelController::class, 'index']);
+Route::post('/level', [LevelController::class, 'store']);
+Route::post('/level/list', [LevelController::class, 'list']);
+Route::get('/level/create', [LevelController::class, 'create']);
+Route::get('/level/{id}', [LevelController::class, 'show']);
+Route::get('/level/{id}/edit', [LevelController::class, 'edit']);
+Route::delete('/level/{id}', [LevelController::class, 'destroy']);
 
+Route::get('/level/{id}/edit', [LevelController::class, 'edit']);
 Route::group(['prefix' => 'user'], function () {
     Route::get('/', [UserController::class, 'index']);
     Route::post('/list', [UserController::class, 'list']);

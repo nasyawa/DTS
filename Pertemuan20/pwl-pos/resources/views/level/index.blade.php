@@ -35,8 +35,7 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            var dataUser = $('#table_level').DataTable({
-                // serverSide: true, jika ingin menggunakan server side processing
+            var dataLevel = $('#data-level').DataTable({
                 serverSide: true,
                 ajax: {
                     "url": "{{ url('level/list') }}",
@@ -44,7 +43,6 @@
                     "type": "POST",
                 },
                 columns: [{
-                    // nomor urut dari laravel datatable addIndexColumn()
                     data: "DT_RowIndex",
                     className: "text-center",
                     orderable: false,
@@ -52,12 +50,9 @@
                 }, {
                     data: "level_kode",
                     className: "",
-                    // orderable: true, jika ingin kolom ini bisa diurutkan
                     orderable: true,
-                    // searchable: true, jika ingin kolom ini bisa dicari
                     searchable: true
                 }, {
-                    // mengambil data level hasil dari ORM berelasi
                     data: "level_nama",
                     className: "",
                     orderable: false,
@@ -69,38 +64,8 @@
                     searchable: false
                 }]
             });
-            // $('#level_id').on('change', function() {
-            //     dataUser.ajax.reload();
-            // });
+
+            dataUser
         });
     </script>
 @endpush
-{{-- <!DOCTYPE html>
-// <html lang="en">
-
-// <head>
-//     <meta charset="UTF-8">
-//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-//     <title>DB Facade</title>
-// </head>
-
-// <body>
-//     <h1>data level pengguna</h1>
-//     <table border="1" cellpadding="2" cellspacing="0">
-//         <tr>
-//             <th>ID</th>
-//             <th>Kode Level</th>
-//             <th>Nama Level</th>
-//         </tr>
-//         @foreach ($data as $d)
-//             <tr>
-//                 <td>{{ $d->level_id }}</td>
-//                 <td>{{ $d->level_kode }}</td>
-//                 <td>{{ $d->level_nama }}</td>
-//             </tr>
-//         @endforeach
-//     </table>
-// </body>
-
-// </html> --}}
